@@ -3,27 +3,61 @@
 <head>
 <meta charset="UTF-8">
 <title>Die bleichen Berge</title>
+
 <style>
 body{
-  margin:0;
-  background:black;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
+    margin:0;
+    background:black;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
 }
+
 video{
-  width:90%;
-  max-width:700px;
-  border-radius:12px;
+    width:90%;
+    max-width:700px;
+    border-radius:12px;
 }
 </style>
 </head>
+
 <body>
 
-<video controls autoplay loop>
-  <source src="Seite 1.mp4" type="video/mp4">
-</video>
+<video id="flipbook" controls autoplay></video>
+
+<script>
+
+const videos = [
+
+"Startsmall.mp4",
+"Prinz.mp4",
+"Seite 2.mp4",
+"Mondprinzessin.mp4",
+"Seite 3.mp4",
+"Seite 4.mp4",
+"Paar.mp4",
+"Seite 5.mp4",
+"Bleiche Berge.mp4"
+
+];
+
+let current = 0;
+
+const player = document.getElementById("flipbook");
+
+player.src = videos[current];
+
+player.addEventListener("ended", () => {
+    current++;
+
+    if(current < videos.length){
+        player.src = videos[current];
+        player.play();
+    }
+});
+
+</script>
 
 </body>
 </html>
