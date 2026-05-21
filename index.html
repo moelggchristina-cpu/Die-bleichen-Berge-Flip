@@ -6,56 +6,120 @@
 
 <style>
 body{
-    margin:0;
-    background:black;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
+  margin:0;
+  background:black;
+  color:white;
+  font-family:Arial,sans-serif;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+}
+
+.book{
+  display:flex;
+  gap:12px;
+  width:95vw;
+  max-width:1200px;
+}
+
+.page{
+  width:50%;
 }
 
 video{
-    width:90%;
-    max-width:700px;
-    border-radius:12px;
+  width:100%;
+  border-radius:12px;
+  background:#111;
+}
+
+.controls{
+  margin-top:20px;
+}
+
+button{
+  padding:10px 18px;
+  font-size:18px;
+  margin:0 10px;
 }
 </style>
 </head>
 
 <body>
 
-<video id="flipbook" controls autoplay></video>
+<div class="book">
+  <div class="page">
+    <video id="leftVideo" controls autoplay></video>
+  </div>
+
+  <div class="page">
+    <video id="rightVideo" controls autoplay></video>
+  </div>
+</div>
+
+<div class="controls">
+  <button onclick="prevSpread()">← Zurück</button>
+  <button onclick="nextSpread()">Weiter →</button>
+</div>
 
 <script>
 
-const videos = [
+const spreads = [
 
-"Startsmall.mp4",
-"Prinz.mp4",
-"Seite 2.mp4",
-"Mondprinzessin.mp4",
-"Seite 3.mp4",
-"Seite 4.mp4",
-"Paar.mp4",
-"Seite 5.mp4",
-"Bleiche Berge.mp4"
+["Startsmall.mp4", null],
+
+["Seite 1.mp4", "Prinz.mp4"],
+
+["Mondprinzessin.mp4", "Seite 2.mp4"],
+
+["Seite 4.mp4", "Seite 3.mp4"],
+
+["Paar.mp4", "Seite 5.mp4"],
+
+["Bleiche Berge.mp4", null]
 
 ];
 
 let current = 0;
 
-const player = document.getElementById("flipbook");
+function showSpread(){
 
-player.src = videos[current];
+const left = document.getElementById("leftVideo");
+const right = document.getElementById("rightVideo");
 
-player.addEventListener("ended", () => {
-    current++;
+left.src = spreads[current][0];
 
-    if(current < videos.length){
-        player.src = videos[current];
-        player.play();
-    }
-});
+if(spreads[current][1]){
+    right.style.display = "block";
+    right.src = spreads[current][1];
+} else {
+    right.style.display = "none";
+}
+
+left.load();
+
+if(spreads[current][1]){
+    right.load();
+}
+
+}
+
+function nextSpread(){
+if(current < spreads.length -1){
+current++;
+showSpread();
+}
+}
+
+function prevSpread(){
+if(current > 0){
+current--;
+showSpread();
+}
+}
+
+showSpread();
 
 </script>
 
